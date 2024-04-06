@@ -1,5 +1,5 @@
 import { Character } from '../db/Character';
-import { getCharactersByStatusFromCache, storeCharactersInCache } from '../redis/redis-cache'; // Import your cache module
+import { getCharactersByStatusFromCache, storeCharactersInCache } from '../redis/redis-cache'; // Import cache module
 import { measureExecutionTime } from '../execution-time/execution-time';
 import { CharacterType } from '../db/Character';
 

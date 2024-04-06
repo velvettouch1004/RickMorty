@@ -11,7 +11,7 @@ describe('Character Resolvers', () => {
             const { createdAt, updatedAt, origin, ...rest } = character; // Specify the fields to ignore
             return rest;
         });
-        expect(filteredCharacter).toEqual(characterByName); // Check if the result matches the mock data
+        expect(filteredCharacter).toEqual(characterByName);
     });
 
     it('Should retrieve correct structure and values for the first two characters by status', async () => {
@@ -21,9 +21,9 @@ describe('Character Resolvers', () => {
         const firstTwoCharacters = result.slice(0, 2);
         // Remove the specified fields from each character
         const filteredCharacters = firstTwoCharacters.map((character: any) => {
-            const { createdAt, updatedAt, origin, ...rest } = character; // Specify the fields to ignore
+            const { createdAt, updatedAt, origin, ...rest } = character;
             return rest;
         });
-        await expect(filteredCharacters).toEqual(charactersByStatus.slice(0, 2)); // Check if the result matches the mock data
+        expect(filteredCharacters).toEqual(charactersByStatus.slice(0, 2));
     });
 });

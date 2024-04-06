@@ -2,10 +2,10 @@ var cron = require('node-cron');
 import { Character } from '../db/Character';
 import axios from 'axios';
 import { API_URL } from '../constansts/constants';
-//cron.schedule('0 */12 * * *', () => {
 
+//cron.schedule('* * * * *', async () => {
 console.log('Cron job scheduled to run')
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 */12 * * *', async () => {
     try {
         // Fetch data from the external API
         const response = await axios.get(API_URL);

@@ -7,21 +7,6 @@ import { createHandler } from "graphql-http/lib/use/express"
 const app = express();
 const PORT = 3000;
 
-
-// Configure Sequelize
-/*const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './db.sqlite', // SQLite3 memory database
-});
-
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-  */
-
 const middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     // Log request information
     console.log(`Request method: ${req.method}`);
@@ -47,4 +32,3 @@ app.use('/graphql', middleware, graphqlMiddleware);
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}/graphql`);
 });
-

@@ -9,7 +9,6 @@ import { Sequelize } from 'sequelize';
 //     logging: false
 // });
 
-
 /**
  * Configure file database
  */

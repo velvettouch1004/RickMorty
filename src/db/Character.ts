@@ -14,7 +14,7 @@ type CharacterType = {
 const Character = sequelize.define('Character', {
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true, // Define id as the primary key
+    primaryKey: true,
   },
   status: DataTypes.STRING,
   species: DataTypes.STRING,
@@ -27,7 +27,6 @@ const Character = sequelize.define('Character', {
 (async () => {
   try {
     await sequelize.sync(); // Sync the model with the database
-    //console.log('Character model synced successfully');
   } catch (error) {
     console.error('Error syncing Character model:', error);
   }
