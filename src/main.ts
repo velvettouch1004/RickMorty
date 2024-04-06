@@ -4,8 +4,15 @@ import { schema } from './graphql/schema';
 import { resolvers } from './graphql/resolvers';
 import { createHandler } from "graphql-http/lib/use/express"
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import options from './swagger.config'
+
 const app = express();
 const PORT = 3000;
+
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     // Log request information

@@ -9,9 +9,11 @@
     "rootDir": "./src"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/swagger.config.ts"
   ],
   "exclude": [
-    "node_modules", "**/*.spec.ts"
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }
