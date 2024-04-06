@@ -8,3 +8,6 @@ Steps to run:
 
 Run test:
 - npx jest
+
+Migration
+- run: "sequelize db:migrate" in the terminal to run pending migration files
