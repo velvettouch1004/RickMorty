@@ -5,3 +5,6 @@ NodeJS project using the technologies
 Steps to run:
 - Install packages using npm install.
 - Execute using npm run start:dev
+
+Run test:
+- npx jest

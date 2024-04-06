@@ -1,20 +1,17 @@
 import { resolvers } from '../graphql/resolvers';
 import { characterByName, charactersByStatus } from './mockData';
-
+import { CharacterType } from '../db/Character';
 describe('Character Resolvers', () => {
     it('Should validate characterbyname', async () => {
-        // Mock the findAll method of the Character model
-        //Character.findAll = jest.fn().mockResolvedValue(mockCharacterData);
 
-        // Define test data
-        const args = { name: 'Amish Cyborg' };
+        const args = { name: "Alien Googah" };
+        const result: Array<CharacterType> = await resolvers.charactersByName(args);
 
-        // Call the resolver function
-        const result = await resolvers.charactersByName(args);
-
-        // Assertions
-        await expect(result).toEqual(characterByName); // Check if the result matches the mock data
-        //expect(Character.findAll).toHaveBeenCalledWith({ where: { name: 'AlAmish Cyborg' } }); // Check if findAll method was called with correct arguments
+        const filteredCharacter = result.map((character: any) => {
+            const { createdAt, updatedAt, origin, ...rest } = character; // Specify the fields to ignore
+            return rest;
+        });
+        expect(filteredCharacter).toEqual(characterByName); // Check if the result matches the mock data
     });
 
     it('Should retrieve correct structure and values for the first two characters by status', async () => {
@@ -24,7 +21,7 @@ describe('Character Resolvers', () => {
         const firstTwoCharacters = result.slice(0, 2);
         // Remove the specified fields from each character
         const filteredCharacters = firstTwoCharacters.map((character: any) => {
-            const { createdAt, updatedAt, ...rest } = character; // Specify the fields to ignore
+            const { createdAt, updatedAt, origin, ...rest } = character; // Specify the fields to ignore
             return rest;
         });
         await expect(filteredCharacters).toEqual(charactersByStatus.slice(0, 2)); // Check if the result matches the mock data

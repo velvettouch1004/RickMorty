@@ -1,44 +1,47 @@
 import { Character } from '../db/Character';
 import { getCharactersByStatusFromCache, storeCharactersInCache } from '../redis/redis-cache'; // Import your cache module
-import { MeasureExecutionTime } from '../execution-time/execution-time';
-import { sequelize } from '../db/dbConnection';
+import { measureExecutionTime } from '../execution-time/execution-time';
+import { CharacterType } from '../db/Character';
 
-async function filterCharacters(status: string, filterKey: string) {
-    try {
-        const whereClause: any = {
-            [filterKey]: status // Constructing the where clause dynamically
-        };
-        // Attempt to retrieve data from cache
-        let characters: any = await getCharactersByStatusFromCache(status, filterKey);
-        if (characters == null) {
-            characters = await Character.findAll({ where: whereClause });
-            storeCharactersInCache(status, characters, filterKey)
-            console.log("null characters")
-        } else {
-            characters = JSON.parse(characters)
+class ResolversClass {
+    @measureExecutionTime()
+    static async filterCharacters(status: string, filterKey: string) {
+        try {
+            const whereClause: any = {
+                [filterKey]: status // Constructing the where clause dynamically
+            };
+            // Attempt to retrieve data from cache
+            let characters: any = await getCharactersByStatusFromCache(status, filterKey);
+            if (characters == null) {
+                characters = await Character.findAll({ where: whereClause });
+                characters.length != 0 ? storeCharactersInCache(status, characters, filterKey) : null
+                    characters = characters?.map((character: any) => character.toJSON());
+            } else {
+                characters = JSON.parse(characters)
+            }
+            return characters
+        } catch (error) {
+            console.error('Error fetching characters by status:', error);
+            throw error;
         }
-        return characters
-    } catch (error) {
-        console.error('Error fetching characters by status:', error);
-        throw error;
     }
 }
-const resolvers = {
+export const resolvers = {
     async charactersByStatus({ status }: { status: string }) {
-        return await filterCharacters(status, "status")
+        return await ResolversClass.filterCharacters(status, "status")
     },
     charactersBySpecies: async ({ species }: { species: string }) => {
-        return await filterCharacters(species, "species")
+        return await ResolversClass.filterCharacters(species, "species")
     },
     charactersByGender: async ({ gender }: { gender: string }) => {
-        return await filterCharacters(gender, "gender")
+        return await ResolversClass.filterCharacters(gender, "gender")
 
     },
     charactersByName: async ({ name }: { name: string }) => {
-        return await filterCharacters(name, "name")
+        return await ResolversClass.filterCharacters(name, "name")
     },
     charactersByOrigin: async ({ origin }: { origin: string }) => {
-        return await filterCharacters(origin, "origin")
+        return await ResolversClass.filterCharacters(origin, "origin")
     },
     deleteCharacter: async ({ id }: { id: number }) => {
         try {
@@ -55,5 +58,3 @@ const resolvers = {
         }
     },
 };
-
-export { resolvers };
