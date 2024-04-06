@@ -11,3 +11,7 @@ Run test:
 
 Migration
 - run: "sequelize db:migrate" in the terminal to run pending migration files
+
+ERD
+
+![Diagrama sin título](https://github.com/cardonacarlos9a/RickMorty/assets/15693622/17948094-48a5-447e-b76f-60ff8350aba6)
